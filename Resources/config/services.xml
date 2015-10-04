@@ -1,0 +1,119 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <!--FORMS-->
+        <parameter key="vardius_invoice.form.type.date_picker.class">Vardius\Bundle\InvoiceBundle\Form\Type\DatePickerType</parameter>
+        <parameter key="vardius_invoice.form.type.invoice.class">Vardius\Bundle\InvoiceBundle\Form\Type\InvoiceType</parameter>
+        <parameter key="vardius_invoice.form.type.client.class">Vardius\Bundle\InvoiceBundle\Form\Type\ClientType</parameter>
+        <parameter key="vardius_invoice.form.type.entry.class">Vardius\Bundle\InvoiceBundle\Form\Type\EntryType</parameter>
+        <parameter key="vardius_invoice.form.type.tax.class">Vardius\Bundle\InvoiceBundle\Form\Type\TaxType</parameter>
+        <!--LIST VIEW-->
+        <parameter key="vardius_invoice.invoice.list_view.class">Vardius\Bundle\InvoiceBundle\ListView\InvoiceListProvider</parameter>
+        <parameter key="vardius_invoice.client.list_view.class">Vardius\Bundle\InvoiceBundle\ListView\ClientListProvider</parameter>
+        <parameter key="vardius_invoice.tax.list_view.class">Vardius\Bundle\InvoiceBundle\ListView\TaxListProvider</parameter>
+        <!-- MANAGER -->
+        <parameter key="vardius_invoice.class_manager.class">Vardius\Bundle\InvoiceBundle\Manager\ClassManager</parameter>
+    </parameters>
+
+    <services>
+        <!-- INVOICE-->
+        <service id="vardius_invoice.controller.factory" parent="vardius_crud.controller.factory"/>
+        <!--FORMS-->
+        <service id="vardius_invoice.form.type.date_picker" class="%vardius_invoice.form.type.date_picker.class%">
+            <tag name="form.type" alias="vardius_Invoice_date_picker"/>
+        </service>
+        <service id="vardius_invoice.form.type.invoice" class="%vardius_invoice.form.type.invoice.class%">
+            <argument type="service" id="vardius_invoice.class_manager"/>
+            <argument>%vardius_invoice.invoice%</argument>
+            <argument>%vardius_invoice.seller%</argument>
+            <argument>%vardius_invoice.buyer%</argument>
+
+            <tag name="form.type" alias="vardius_invoice"/>
+        </service>
+        <service id="vardius_invoice.form.type.client" class="%vardius_invoice.form.type.client.class%">
+            <argument type="service" id="vardius_invoice.class_manager"/>
+            <argument>%vardius_invoice.client%</argument>
+
+            <tag name="form.type" alias="vardius_invoice_client"/>
+        </service>
+        <service id="vardius_invoice.form.type.entry" class="%vardius_invoice.form.type.entry.class%">
+            <argument type="service" id="vardius_invoice.class_manager"/>
+            <argument>%vardius_invoice.entry%</argument>
+            <argument>%vardius_invoice.tax%</argument>
+
+            <tag name="form.type" alias="vardius_invoice_entry"/>
+        </service>
+        <service id="vardius_invoice.form.type.tax" class="%vardius_invoice.form.type.tax.class%">
+            <argument type="service" id="vardius_invoice.class_manager"/>
+            <argument>%vardius_invoice.tax%</argument>
+
+            <tag name="form.type" alias="vardius_invoice_tax"/>
+        </service>
+
+        <!--LIST VIEW-->
+        <service id="vardius_invoice.invoice.list_view" class="%vardius_invoice.invoice.list_view.class%" parent="vardius_list.list_view.provider"/>
+        <service id="vardius_invoice.client.list_view" class="%vardius_invoice.client.list_view.class%" parent="vardius_list.list_view.provider"/>
+        <service id="vardius_invoice.tax.list_view" class="%vardius_invoice.tax.list_view.class%" parent="vardius_list.list_view.provider"/>
+
+        <!--CONTROLLERS-->
+        <service id="vardius_invoice.crud_controller.invoice" class="%vardius_crud.controller.class%" factory-service="vardius_invoice.controller.factory" factory-method="get">
+            <argument>%vardius_invoice.invoice%</argument>
+            <argument>/invoice</argument>
+            <argument type="service" id="vardius_invoice.invoice.list_view"/>
+            <argument type="service" id="vardius_invoice.form.type.invoice"/>
+            <argument>NULL</argument>
+            <argument>VardiusInvoiceBundle:Invoice:</argument>
+            <argument type="collection">
+                <argument type="service" key="list" id="vardius_admin.action_list"/>
+                <argument type="service" key="show" id="vardius_admin.action_show"/>
+                <argument type="service" key="add" id="vardius_admin.action_add"/>
+                <argument type="service" key="edit" id="vardius_admin.action_edit"/>
+                <argument type="service" key="delete" id="vardius_admin.action_delete"/>
+                <argument type="service" key="export" id="vardius_admin.action_export"/>
+            </argument>
+
+            <tag name="vardius_crud.controller" />
+        </service>
+        <service id="vardius_invoice.crud_controller.client" class="%vardius_crud.controller.class%" factory-service="vardius_invoice.controller.factory" factory-method="get">
+            <argument>%vardius_invoice.client%</argument>
+            <argument>/client</argument>
+            <argument type="service" id="vardius_invoice.client.list_view"/>
+            <argument type="service" id="vardius_invoice.form.type.client"/>
+            <argument>NULL</argument>
+            <argument>NULL</argument>
+            <argument type="collection">
+                <argument type="service" key="list" id="vardius_admin.action_list"/>
+                <argument type="service" key="add" id="vardius_admin.action_add"/>
+                <argument type="service" key="edit" id="vardius_admin.action_edit"/>
+                <argument type="service" key="delete" id="vardius_admin.action_delete"/>
+            </argument>
+
+            <tag name="vardius_crud.controller" />
+        </service>
+        <service id="vardius_invoice.crud_controller.tax" class="%vardius_crud.controller.class%" factory-service="vardius_invoice.controller.factory" factory-method="get">
+            <argument>%vardius_invoice.tax%</argument>
+            <argument>/tax</argument>
+            <argument type="service" id="vardius_invoice.tax.list_view"/>
+            <argument type="service" id="vardius_invoice.form.type.tax"/>
+            <argument>NULL</argument>
+            <argument>NULL</argument>
+            <argument type="collection">
+                <argument type="service" key="list" id="vardius_admin.action_list"/>
+                <argument type="service" key="add" id="vardius_admin.action_add"/>
+                <argument type="service" key="edit" id="vardius_admin.action_edit"/>
+                <argument type="service" key="delete" id="vardius_admin.action_delete"/>
+            </argument>
+
+            <tag name="vardius_crud.controller" />
+        </service>
+
+        <!-- MANAGER -->
+        <service id="vardius_invoice.class_manager" class="%vardius_invoice.class_manager.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+        </service>
+    </services>
+</container>

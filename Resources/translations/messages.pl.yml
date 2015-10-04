@@ -1,0 +1,21 @@
+issuedDate: Data wystawienia
+seller: Sprzedawca
+buyer: Nabywca
+invoiceNumber: 'Faktura nr.'
+paymentDate: Termin zapłaty
+accountNumber: Nr konta
+entry:
+    number: Lp
+    name: 'Nazwa towaru lub usługi'
+    unit: Jm
+    quantity: Ilość
+    price: 'Cena Netto'
+    vat: 'Stawka Vat'
+    net: 'Wartość Netto'
+    value:
+        vat: 'Wartość Vat'
+        gross: 'Wartość Brutto'
+amountDue: 'Kwota do zapłaty'
+total: 'Do zapłaty'
+seller.signature: 'Osoba upoważniona do wystawienia'
+buyer.signature: 'Osoba upoważniona do odbioru'

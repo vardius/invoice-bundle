@@ -1,0 +1,30 @@
+{
+    "name": "vardius/invoice-bundle",
+    "description": "Symfony invoice bundle",
+    "keywords": [
+        "invoice", "invoice bundle", "symfony2", "bundle", "symfony"
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/Vardius/invoice-bundle",
+    "authors": [
+        {
+          "name": "Rafał Lorenz",
+          "email": "vardius@gmail.com",
+          "homepage": "http://rafallorenz.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "symfony/symfony": ">=2.6",
+        "vardius/crud-bundle": "0.3.*@dev"
+    },
+    "target-dir": "Vardius/Bundle/InvoiceBundle",
+    "autoload": {
+        "psr-0": { "Vardius\\Bundle\\InvoiceBundle": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}

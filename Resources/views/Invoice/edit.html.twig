@@ -1,0 +1,32 @@
+{% extends 'VardiusCrudBundle::layout.html.twig' %}
+
+{% block title %}Invoice{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+
+    {{ form_row(form.number) }}
+    {{ form_row(form.issuedDate) }}
+    {{ form_row(form.paymentDate) }}
+    {{ form_row(form.buyer) }}
+    {{ form_row(form.seller) }}
+
+    <h3>Items</h3>
+    <ul class="items" data-prototype="{{ form_widget(form.entries.vars.prototype)|e }}">
+        {% for entries in form.entries %}
+            <li>{{ form_row(entries.name) }}</li>
+            <li>{{ form_row(entries.unit) }}</li>
+            <li>{{ form_row(entries.quantity) }}</li>
+            <li>{{ form_row(entries.price) }}</li>
+            <li>{{ form_row(entries.taxes) }}</li>
+        {% endfor %}
+    </ul>
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/vardiusinvoice/js/invoiceForm.js') }}"></script>
+{% endblock %}

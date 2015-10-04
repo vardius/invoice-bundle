@@ -1,0 +1,21 @@
+issuedDate: Issued Date
+seller: Seller
+buyer: Buyer
+invoiceNumber: Invoice
+paymentDate: Payment Date
+accountNumber: Account Number
+entry:
+    number: Nr
+    name: 'Product'
+    unit: Unit
+    quantity: Qty
+    price: 'Price'
+    vat: 'Tax'
+    net: 'Net'
+    value:
+        vat: 'Tax Value'
+        gross: 'Gross'
+amountDue: 'Amount Due'
+total: Total
+seller.signature: 'Person authorized to issue'
+buyer.signature: 'Person authorized to collect'

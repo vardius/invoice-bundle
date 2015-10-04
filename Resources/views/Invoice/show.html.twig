@@ -1,0 +1,137 @@
+{% extends 'VardiusCrudBundle::layout.html.twig' %}
+
+{% block title %}Invoice{% endblock %}
+
+{% block content %}
+    <section class="invoice">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="page-header">
+                    <i class="fa fa-globe"></i> {{ data.seller.name }}
+                    <small class="pull-right">Data wystawienia: {{ data.issuedDate|date('"d/m/Y"') }}</small>
+                </h2>
+            </div>
+        </div>
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+                Sprzedawca
+                <address>
+                    <strong>{{ data.seller.name }}</strong><br>
+                    {{ data.seller.address }}<br>
+                    {{ data.seller.zipCode }} {{ data.seller.city }}<br>
+                    {% if data.seller.email is not null %}
+                        Email: {{ data.seller.email }}<br>
+                    {% endif %}
+                    NIP: {{ data.seller.nip }}
+                </address>
+            </div>
+            <div class="col-sm-4 invoice-col">
+                Nabywca
+                <address>
+                    <strong>{{ data.buyer.name }}</strong><br>
+                    {{ data.buyer.address }}<br>
+                    {{ data.buyer.zipCode }} {{ data.buyer.city }}<br>
+                    {% if data.buyer.email is not null %}
+                        Email: {{ data.buyer.email }}<br>
+                    {% endif %}
+                    NIP: {{ data.buyer.nip }}
+                </address>
+            </div>
+            <div class="col-sm-4 invoice-col">
+                <b>Faktura nr. {{ data.number }}</b><br>
+                <br>
+                <b>Termin zapłaty:</b> {{ data.paymentDate|date('"d/m/Y"') }}<br>
+                <b>Bank:</b> {{ data.bank }}<br>
+                <b>Nr konta:</b> {{ data.account }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Lp</th>
+                        <th>Nazwa towaru lub usługi</th>
+                        <th>Jm</th>
+                        <th>Ilość</th>
+                        <th>Cena Netto</th>
+                        <th>Stawka Vat</th>
+                        <th>Wartość Netto</th>
+                        <th>Wartość Vat</th>
+                        <th>Wartość Brutto</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set net = 0 %}
+                    {% set vat = 0 %}
+                    {% for service in data.services %}
+                        {% set net = net + service.net %}
+                        {% set vat = vat + (service.net*service.vat)|round(2) %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ service.name }}</td>
+                            <td>{{ service.unit }}</td>
+                            <td>{{ service.quantity }}</td>
+                            <td>{{ service.net }}</td>
+                            <td>{{ (service.vat*100)|round }}%</td>
+                            <td>{{ service.net }}</td>
+                            <td>{{ (service.net*service.vat)|round(2) }}</td>
+                            <td>{{ (service.net + (service.net*service.vat))|round(2) }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-offset-6 col-xs-6">
+                <p class="lead">Kwota do zapłaty {{ data.paymentDate|date('"d/m/Y"') }}</p>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody><tr>
+                            <th style="width:50%">Wartość Netto:</th>
+                            <td>{{ net }}</td>
+                        </tr>
+                        <tr>
+                            <th>Wartość VAT</th>
+                            <td>{{ vat }}</td>
+                        </tr>
+                        <tr>
+                            <th>Wartość Brutto:</th>
+                            <td>{{ net+vat }}</td>
+                        </tr>
+                        <tr>
+                            <th>Do zapłaty:</th>
+                            <td>{{ net+vat }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 50px;">
+            <div class="col-xs-6 text-center">
+                <hr width="40%" style="border-top: 1px solid #000000;">
+                <p><small>Osoba upoważniona do wystawienia</small></p>
+            </div>
+            <div class="col-xs-6 text-center">
+                <hr width="40%" style="border-top: 1px solid #000000;">
+                <p><small>Osoba upoważniona do odbioru</small></p>
+            </div>
+        </div>
+    </section>
+    {% if ui is not defined or ui %}
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="btn-group pull-right" role="group">
+                    <a href="{{ path('vardius_invoice.crud_controller.invoice.export', {'id' : data.id}) }}" class="btn btn-primary" role="button">
+                        <i class="fa fa-file-pdf-o"></i>
+                        {{ 'action.export.pdf'|trans }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
