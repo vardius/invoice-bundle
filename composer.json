@@ -16,7 +16,7 @@
     "require": {
         "php": ">=5.5",
         "symfony/symfony": ">=2.6",
-        "vardius/crud-bundle": "0.3.*@dev"
+        "vardius/crud-bundle": ">=0.3"
     },
     "target-dir": "Vardius/Bundle/InvoiceBundle",
     "autoload": {

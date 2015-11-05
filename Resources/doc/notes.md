@@ -5,4 +5,4 @@ RELEASE NOTES
 ----------------
 **0.1.0**
 
-- First public release of user-bundle
+- First public release of invoice-bundle
