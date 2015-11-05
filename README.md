@@ -1,6 +1,8 @@
 Vardius - Invoice Bundle
 ======================================
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/6696b21e-47c8-4b2c-96c3-f2163ee98e22/big.png)](https://insight.sensiolabs.com/projects/6696b21e-47c8-4b2c-96c3-f2163ee98e22)
+
 Invoice Bundle provides simple invoice crud and export actions
 
 This is work in progress, dispatch events in next update.
