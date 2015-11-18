@@ -16,7 +16,7 @@ Contributors:
 Want to contribute ? Feel free to send pull requests!
 
 Have problems, bugs, feature ideas?
-We are using the github [issue tracker](https://github.com/vardius/user-bundle/issues) to manage them.
+We are using the github [issue tracker](https://github.com/vardius/invoice-bundle/issues) to manage them.
 
 HOW TO USE
 ==================================================
